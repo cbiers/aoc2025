@@ -1,21 +1,13 @@
 file = open("1/1/in.txt", "r")
 
-moves = []
-
-for line in file:
-    line = line.strip()
-    moves.append((line[0], int(line[1:])))
+moves = [(line[0], int(line[1:])) for line in file]
 
 dial = 50
 count = 0
 
 for move in moves:
     direction, steps = move
-    if direction == 'L':
-        dial -= steps
-    elif direction == 'R':
-        dial += steps
-    dial %= 100  # Wrap around the dial
+    dial = (dial + (-steps if direction == 'L' else steps)) % 100
     if dial == 0:
         count += 1
 
