@@ -1,4 +1,4 @@
-file = open("1/1/in.txt", "r")
+file = open("1/2/in.txt", "r")
 
 moves = [(line[0], int(line[1:])) for line in file]
 
