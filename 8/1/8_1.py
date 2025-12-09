@@ -19,18 +19,14 @@ example = False
 lim = 10 if example else 1000
 with open("8/1/ex.txt" if example else "8/1/in.txt") as f: points = [tuple(map(int, line.strip().split(","))) for line in f]
 
-distances = []
-for i in range(len(points)):
-    for j in range(i + 1, len(points)):
-        distances.append({"p1": points[i], "p2": points[j], "dist": distance(points[i], points[j])})
+distances = [{"p1": points[i], "p2": points[j], "dist": distance(points[i], points[j])} for i in range(len(points)) for j in range(i + 1, len(points))]
 distances.sort(key=lambda x: x["dist"])
 
 circuits = [[point] for point in points]
 
 for i in range(lim):
-    p1, p2 = distances[i]["p1"], distances[i]["p2"]
-    circuit1 = get_circuit(circuits, p1)
-    circuit2 = get_circuit(circuits, p2)
+    circuit1 = get_circuit(circuits, distances[i]["p1"])
+    circuit2 = get_circuit(circuits, distances[i]["p2"])
     if circuit1 != circuit2:
         circuits.remove(circuit1)
         circuits.remove(circuit2)
