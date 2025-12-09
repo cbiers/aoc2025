@@ -1,24 +1,9 @@
 from math import sqrt
-from functools import cache
 
-@cache
 def distance(p1, p2):
     x1, y1, z1 = p1
     x2, y2, z2 = p2
     return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
-
-def find_smallest_distance(points, chosen):
-    min_dist = float('inf')
-    closest_pair = None
-    for i in range(len(points)):
-        for j in range(i + 1, len(points)):
-            if (points[i], points[j]) in chosen or (points[j], points[i]) in chosen:
-                continue
-            dist = distance(points[i], points[j])
-            if dist < min_dist:
-                min_dist = dist
-                closest_pair = (points[i], points[j])
-    return closest_pair
 
 def get_circuit(circuits, point):
     for circuit in circuits:
@@ -34,21 +19,21 @@ example = False
 lim = 10 if example else 1000
 with open("8/1/ex.txt" if example else "8/1/in.txt") as f: points = [tuple(map(int, line.strip().split(","))) for line in f]
 
-circuits = []
-for point in points:
-    circuits.append([point])
+distances = []
+for i in range(len(points)):
+    for j in range(i + 1, len(points)):
+        distances.append({"p1": points[i], "p2": points[j], "dist": distance(points[i], points[j])})
+distances.sort(key=lambda x: x["dist"])
 
-chosen = []
+circuits = [[point] for point in points]
+
 for i in range(lim):
-    print(f"Iteration {i}")
-    p1, p2 = find_smallest_distance(points, chosen)
-    chosen.append((p1, p2))
-    for circuit in circuits:
-        c1 = get_circuit(circuits, p1)
-        c2 = get_circuit(circuits, p2)
-        if p1 in c2 or p2 in c1:
-            continue
-        c1.extend(c2)
-        circuits.remove(c2)
+    p1, p2 = distances[i]["p1"], distances[i]["p2"]
+    circuit1 = get_circuit(circuits, p1)
+    circuit2 = get_circuit(circuits, p2)
+    if circuit1 != circuit2:
+        circuits.remove(circuit1)
+        circuits.remove(circuit2)
+        circuits.append(circuit1 + circuit2)
 
 print(product_of_3_largest_lengths(circuits))
