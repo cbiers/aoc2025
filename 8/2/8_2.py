@@ -21,13 +21,12 @@ circuits = [[point] for point in points]
 
 i = 0
 while len(circuits) > 1:
-    p1, p2 = distances[i]["p1"], distances[i]["p2"]
-    circuit1 = get_circuit(circuits, p1)
-    circuit2 = get_circuit(circuits, p2)
+    circuit1 = get_circuit(circuits, distances[i]["p1"])
+    circuit2 = get_circuit(circuits, distances[i]["p2"])
     if circuit1 != circuit2:
         circuits.remove(circuit1)
         circuits.remove(circuit2)
         circuits.append(circuit1 + circuit2)
     i += 1
 
-print(p1[0] * p2[0])
+print(distances[i-1]["p1"][0] * distances[i-1]["p2"][0])
