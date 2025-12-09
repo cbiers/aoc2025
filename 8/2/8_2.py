@@ -12,7 +12,6 @@ def get_circuit(circuits, point):
     return None
 
 example = False
-lim = 10 if example else 1000
 with open("8/2/ex.txt" if example else "8/2/in.txt") as f: points = [tuple(map(int, line.strip().split(","))) for line in f]
 
 distances = [{"p1": points[i], "p2": points[j], "dist": distance(points[i], points[j])} for i in range(len(points)) for j in range(i + 1, len(points))]
