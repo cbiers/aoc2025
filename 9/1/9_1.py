@@ -12,4 +12,5 @@ for i in range(len(points)):
         rect_size = (xmax - xmin + 1) * (ymax - ymin + 1)
         if rect_size > best:
             best = rect_size
+            
 print(best)
