@@ -4,9 +4,6 @@ with open("11/1/ex.txt" if example else "11/1/in.txt") as file: devices = {name:
 def count_paths(device, output_device):
     if device == output_device:
         return 1
-    total_paths = 0
-    for output in devices[device]:
-        total_paths += count_paths(output, output_device)
-    return total_paths
+    return sum(count_paths(output, output_device) for output in devices[device])
 
 print(count_paths("you", "out"))

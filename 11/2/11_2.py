@@ -9,9 +9,6 @@ def count_paths(device, output_device):
         return 0
     elif device == output_device:
         return 1
-    paths = 0
-    for output in devices[device]:
-        paths += count_paths(output, output_device)
-    return paths
+    return sum(count_paths(output, output_device) for output in devices[device])
 
 print(count_paths("svr", "fft") * count_paths("fft", "dac") * count_paths("dac", "out"))
