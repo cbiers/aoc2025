@@ -1,4 +1,4 @@
-example = False
+example = True
 machines = []
 with open("10/2/ex.txt" if example else "10/2/in.txt") as file:
     for line in file:
@@ -21,6 +21,12 @@ with open("10/2/ex.txt" if example else "10/2/in.txt") as file:
         current["joltage"] = joltage
         machines.append(current)
 
+for machine in machines:
+    for i in range(len(machine["joltage"])):
+
+        for button in machine["buttons"]:
+            if i in button:
+                machine["joltage"][i] -= 1
 def min_button_presses_bfs(machine, init_joltages, presses):
     from collections import deque
 
